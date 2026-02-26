@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VyaparBuddy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1 data-i18n="appTitle">VyaparBuddy</h1>
+      <p data-i18n="tagline">Smart daily accounting for Indian MSMEs</p>
+    </div>
+    <div class="language-picker">
+      <label for="language" data-i18n="language">Language</label>
+      <select id="language">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="mr">मराठी</option>
+        <option value="ta">தமிழ்</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section class="card recap">
+      <div>
+        <h2 data-i18n="dailyRecap">10-Minute Daily Recap</h2>
+        <p data-i18n="dailyRecapDescription">Match drawer cash with ledger before closing the day.</p>
+      </div>
+      <button id="eodBtn" class="btn-primary" data-i18n="completeEod">Complete EOD Match</button>
+    </section>
+
+    <section class="grid stats-grid">
+      <article class="card stat">
+        <h3 data-i18n="cashInDrawer">Cash in Drawer</h3>
+        <p id="cashDrawerValue">₹0</p>
+      </article>
+      <article class="card stat">
+        <h3 data-i18n="bankBalance">Bank Balance</h3>
+        <p id="bankBalanceValue">₹0</p>
+      </article>
+      <article class="card stat">
+        <h3 data-i18n="moneyToCollect">Money to Collect</h3>
+        <p id="debtorsValue">₹0</p>
+      </article>
+      <article class="card stat">
+        <h3 data-i18n="moneyToPay">Money to Pay</h3>
+        <p id="creditorsValue">₹0</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="transactions">Money In / Money Out</h2>
+      <form id="transactionForm" class="grid form-grid">
+        <label>
+          <span data-i18n="type">Type</span>
+          <select name="type" required>
+            <option value="sale_cash" data-i18n="saleCash">Cash Sale</option>
+            <option value="sale_upi" data-i18n="saleUpi">UPI Sale</option>
+            <option value="sale_credit" data-i18n="saleCredit">Credit Sale</option>
+            <option value="expense" data-i18n="expense">Expense</option>
+            <option value="owner_draw" data-i18n="ownerDraw">Personal Withdrawal</option>
+          </select>
+        </label>
+        <label>
+          <span data-i18n="amount">Amount (₹)</span>
+          <input name="amount" type="number" min="1" required />
+        </label>
+        <label>
+          <span data-i18n="category">Category</span>
+          <select name="category">
+            <option>General</option>
+            <option data-i18n="rent">Rent</option>
+            <option data-i18n="electricity">Electricity</option>
+            <option data-i18n="wages">Wages</option>
+            <option data-i18n="teaSnacks">Tea/Snacks</option>
+            <option data-i18n="stationery">Stationery</option>
+          </select>
+        </label>
+        <label>
+          <span data-i18n="note">Note</span>
+          <input name="note" type="text" placeholder="Optional" />
+        </label>
+        <button class="btn-primary" type="submit" data-i18n="saveTransaction">Save Transaction</button>
+      </form>
+    </section>
+
+    <section class="grid two-col">
+      <article class="card">
+        <h2 data-i18n="udhaarManager">Udhaar Manager</h2>
+        <form id="udhaarForm" class="grid form-grid">
+          <input name="name" placeholder="Customer/Supplier Name" required />
+          <select name="kind">
+            <option value="debtor" data-i18n="debtor">Debtor (to collect)</option>
+            <option value="creditor" data-i18n="creditor">Creditor (to pay)</option>
+          </select>
+          <input name="amount" type="number" min="1" placeholder="Amount" required />
+          <input name="phone" type="tel" placeholder="WhatsApp Number" />
+          <button class="btn-primary" type="submit" data-i18n="addEntry">Add Entry</button>
+        </form>
+        <ul id="udhaarList" class="list"></ul>
+      </article>
+
+      <article class="card">
+        <h2 data-i18n="invoiceGenerator">Pakka Bill Generator</h2>
+        <form id="invoiceForm" class="grid form-grid">
+          <input name="customer" placeholder="Customer Name" required />
+          <input name="item" placeholder="Item Name" required />
+          <input name="qty" type="number" min="1" value="1" required />
+          <input name="rate" type="number" min="1" placeholder="Rate" required />
+          <select name="invoiceType">
+            <option value="gst" data-i18n="gstInvoice">GST Invoice</option>
+            <option value="non_gst" data-i18n="nonGstInvoice">Non-GST Invoice</option>
+          </select>
+          <button class="btn-primary" type="submit" data-i18n="generateInvoice">Generate Invoice</button>
+        </form>
+        <div id="invoicePreview" class="preview"></div>
+      </article>
+    </section>
+
+    <section class="grid two-col">
+      <article class="card">
+        <h2 data-i18n="pettyCash">Petty Cash Box</h2>
+        <form id="pettyAllocationForm" class="inline-form">
+          <input name="allocation" type="number" min="1" placeholder="Weekly Allocation" required />
+          <button type="submit" class="btn-secondary" data-i18n="allocate">Allocate</button>
+        </form>
+        <form id="pettyExpenseForm" class="grid form-grid">
+          <input name="amount" type="number" min="1" placeholder="Expense Amount" required />
+          <input name="receipt" type="text" placeholder="Receipt photo file name" required />
+          <button type="submit" class="btn-primary" data-i18n="addPettyExpense">Add Petty Expense</button>
+        </form>
+        <p><strong data-i18n="remainingPetty">Remaining Petty Cash:</strong> <span id="pettyRemaining">₹0</span></p>
+      </article>
+
+      <article class="card">
+        <h2 data-i18n="complianceExport">CA Export & Compliance</h2>
+        <p data-i18n="exportDescription">One-click monthly export for GST and Income Tax filing.</p>
+        <button id="exportBtn" class="btn-primary" data-i18n="exportCsv">Export Month as CSV</button>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <small data-i18n="offlineStatus">Offline ready: entries sync automatically when reconnected.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
